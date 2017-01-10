@@ -6,43 +6,34 @@
  */
 
 #include <stdio.h>
-#include <ctype.h>
-#include <stdbool.h>
+#include <stdlib.h>
 
-bool legal_int(char *str);
 
 void prime_factor(int nr);
 
 int main(int argc, char *argv[]) {
     int nr;
+    int error;
 
-    if (argc < 2) {
-        printf("Trebuie specifica un argument ! \n");
+    if (argc != 2) {
+        fprintf(stderr, "Utilizare : %s numar\n", argv[0]);
 
-        return 0;
+        exit(EXIT_FAILURE);
     }
 
-    if (!legal_int(argv[1])) {
-        printf("Trebuie sa fie un numar pozitiv ! \n");
+    error = sscanf(argv[1], "%d", &nr);
 
-        return 0;
+    if (error != 1) {
+        fprintf(stderr, "%s trebuie sa fie un numar pozitiv ! \n", argv[1]);
+
+        exit(EXIT_FAILURE);
     }
 
-    sscanf(argv[1], "%d", &nr);
-    printf("%d = ", nr);
+
+    fprintf(stderr, "%d = ", nr);
     prime_factor(nr);
 
     return 0;
-}
-
-bool legal_int(char *str) {
-
-    while (*str != 0)
-        if (!isdigit(*str++)) {
-            return false;
-        }
-
-    return true;
 }
 
 void prime_factor(int nr) {
@@ -51,7 +42,8 @@ void prime_factor(int nr) {
     i = 2;
 
     if (nr <= 1) {
-        printf(" Numarul nu poate fi descompus in factori primi ! ");
+        printf(" Numarul nu poate fi descompus in factori primi !\n");
+        return;
     }
 
     while (nr > 1) {
@@ -64,7 +56,12 @@ void prime_factor(int nr) {
                 p++;
             }
 
-            printf("%d ^ %d ", i, p);
+            if (p == 1) {
+                printf("%d", i);
+            } else {
+                printf("%d ^ %d ", i, p);
+            }
+
 
             if (nr > 1) {
                 printf(" * ");
