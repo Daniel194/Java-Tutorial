@@ -1,4 +1,6 @@
-package aop.aop;
+package aop.service;
+
+import aop.model.Employee;
 
 public class EmployeeService {
 
@@ -11,5 +13,4 @@ public class EmployeeService {
     public void setEmployee(Employee e) {
         this.employee = e;
     }
-
 }

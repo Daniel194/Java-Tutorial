@@ -1,4 +1,4 @@
-package aop.aop;
+package aop.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +11,7 @@ public class EmployeeAspect {
         System.out.println("Executing Advice on getName()");
     }
 
-    @Before("execution(* aop.aop.*.get*())")
+    @Before("execution(* aop.service.*.get*())")
     public void getAllAdvice() {
         System.out.println("Service method getter called");
     }
