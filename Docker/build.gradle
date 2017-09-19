@@ -25,8 +25,8 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
