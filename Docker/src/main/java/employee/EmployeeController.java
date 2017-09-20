@@ -23,5 +23,9 @@ public class EmployeeController {
         return employeeRepository.findOne(employeeId);
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public String message() {
+        return "Welcome to this wonderful application !";
+    }
 
 }
