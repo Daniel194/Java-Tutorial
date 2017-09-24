@@ -16,7 +16,7 @@ public class KubernetesApplication {
 
     @RequestMapping(method = RequestMethod.GET)
     public String message() {
-        return "Welcome to to Kubernetes !";
+        return "Welcome to Kubernetes !";
     }
 
 }
