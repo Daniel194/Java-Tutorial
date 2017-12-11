@@ -17,11 +17,14 @@ public class SimpleApp {
     private static final String YOUR_SPARK_HOME = "/Users/daniellungu/Workspace/spark-2.2.1-bin-hadoop2.7/";
     private static final String SOURCE_JAR = "spark/build/libs/spark-1.0-SNAPSHOT.jar";
     private static final Integer NUM_SAMPLES = 1000000;
+    private static final String FILE_PATH = "file:///Users/daniellungu/Workspace/Java-Tutorial/spark/src/main/resources/test.txt";
 
     public static void main(String[] args) {
         //firstExample();
         //wordCount();
-        piEstimation();
+        //piEstimation();
+        //secondExample();
+        totalLength();
     }
 
     private static void firstExample() {
@@ -40,7 +43,7 @@ public class SimpleApp {
     private static void wordCount() {
         JavaSparkContext sc = new JavaSparkContext("local", "Simple App",
                 YOUR_SPARK_HOME, new String[]{SOURCE_JAR});
-        JavaRDD<String> textFile = sc.textFile("file:///Users/daniellungu/Workspace/Java-Tutorial/spark/src/main/resources/test.txt");
+        JavaRDD<String> textFile = sc.textFile(FILE_PATH);
 
         JavaPairRDD<String, Integer> counts = textFile
                 .flatMap(s -> Arrays.asList(s.split(" ")).iterator())
@@ -67,6 +70,29 @@ public class SimpleApp {
         }).count();
 
         System.out.println("Pi is roughly :" + 4.0 * count / NUM_SAMPLES);
+    }
+
+    private static void secondExample() {
+        JavaSparkContext sc = new JavaSparkContext("local", "Simple App",
+                YOUR_SPARK_HOME, new String[]{SOURCE_JAR});
+
+        List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
+        JavaRDD<Integer> distData = sc.parallelize(data);
+
+        int total = distData.reduce((a, b) -> a + b);
+
+        System.out.println("Total : " + total);
+    }
+
+    private static void totalLength(){
+        JavaSparkContext sc = new JavaSparkContext("local", "Simple App",
+                YOUR_SPARK_HOME, new String[]{SOURCE_JAR});
+
+        JavaRDD<String> lines = sc.textFile(FILE_PATH);
+        JavaRDD<Integer> lineLengths = lines.map(s -> s.length());
+        int totalLength = lineLengths.reduce((a, b) -> a + b);
+
+        System.out.println("Total : " + totalLength);
     }
 
 }
