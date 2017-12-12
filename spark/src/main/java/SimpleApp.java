@@ -5,6 +5,12 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 
+import org.apache.spark.*;
+import org.apache.spark.api.java.function.*;
+import org.apache.spark.streaming.*;
+import org.apache.spark.streaming.api.java.*;
+import scala.Tuple2;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +30,8 @@ public class SimpleApp {
         //wordCount();
         //piEstimation();
         //secondExample();
-        totalLength();
+        //totalLength();
+        sparkStreaming();
     }
 
     private static void firstExample() {
@@ -84,7 +91,7 @@ public class SimpleApp {
         System.out.println("Total : " + total);
     }
 
-    private static void totalLength(){
+    private static void totalLength() {
         JavaSparkContext sc = new JavaSparkContext("local", "Simple App",
                 YOUR_SPARK_HOME, new String[]{SOURCE_JAR});
 
@@ -93,6 +100,26 @@ public class SimpleApp {
         int totalLength = lineLengths.reduce((a, b) -> a + b);
 
         System.out.println("Total : " + totalLength);
+    }
+
+    private static void sparkStreaming() {
+        SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("NetworkWordCount");
+        JavaStreamingContext jssc = new JavaStreamingContext(conf, Durations.seconds(1));
+
+        // Create a DStream that will connect to hostname:port, like localhost:9999
+        JavaReceiverInputDStream<String> lines = jssc.socketTextStream("localhost", 9999);
+
+        // Split each line into words
+        JavaDStream<String> words = lines.flatMap(x -> Arrays.asList(x.split(" ")).iterator());
+
+        // Count each word in each batch
+        JavaPairDStream<String, Integer> pairs = words.mapToPair(s -> new Tuple2<>(s, 1));
+        JavaPairDStream<String, Integer> wordCounts = pairs.reduceByKey((i1, i2) -> i1 + i2);
+
+        // Print the first ten elements of each RDD generated in this DStream to the console
+        wordCounts.print();
+
+        jssc.start(); // Start the computation
     }
 
 }
