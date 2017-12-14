@@ -2,8 +2,10 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.streaming.StreamingQuery;
 import scala.Tuple2;
 
 import org.apache.spark.*;
@@ -126,7 +128,7 @@ public class SimpleApp {
         jssc.start(); // Start the computation
     }
 
-    public static void dataFramesForJSON() {
+    private static void dataFramesForJSON() {
         SparkSession spark = SparkSession
                 .builder()
                 .appName("Java Spark SQL basic example")
@@ -140,6 +142,36 @@ public class SimpleApp {
         df.select(col("name"), col("age").plus(1)).show();
         df.filter(col("age").gt(21)).show();
         df.groupBy("age").count().show();
+    }
+
+    private static void structuredStreaming() {
+        SparkSession spark = SparkSession
+                .builder()
+                .appName("JavaStructuredNetworkWordCount")
+                .getOrCreate();
+
+        // Create DataFrame representing the stream of input lines from connection to localhost:9999
+        Dataset<Row> lines = spark
+                .readStream()
+                .format("socket")
+                .option("host", "localhost")
+                .option("port", 9999)
+                .load();
+
+        // Split the lines into words
+        Dataset<String> words = lines
+                .as(Encoders.STRING())
+                .flatMap((FlatMapFunction<String, String>) x -> Arrays.asList(x.split(" ")).iterator(), Encoders.STRING());
+
+        // Generate running word count
+        Dataset<Row> wordCounts = words.groupBy("value").count();
+
+        // Start running the query that prints the running counts to the console
+        StreamingQuery query = wordCounts.writeStream()
+                .outputMode("complete")
+                .format("console")
+                .start();
+
     }
 
 }
