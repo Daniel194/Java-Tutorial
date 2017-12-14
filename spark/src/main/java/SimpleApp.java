@@ -2,6 +2,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 
@@ -14,6 +15,8 @@ import scala.Tuple2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.apache.spark.sql.functions.col;
 
 /**
  * Command: /Users/daniellungu/Workspace/spark-2.2.1-bin-hadoop2.7/bin/spark-submit --class "SimpleApp" --master local[4] build/libs/spark-1.0-SNAPSHOT.jar
@@ -31,7 +34,8 @@ public class SimpleApp {
         //piEstimation();
         //secondExample();
         //totalLength();
-        sparkStreaming();
+        //sparkStreaming();
+        dataFramesForJSON();
     }
 
     private static void firstExample() {
@@ -120,6 +124,22 @@ public class SimpleApp {
         wordCounts.print();
 
         jssc.start(); // Start the computation
+    }
+
+    public static void dataFramesForJSON() {
+        SparkSession spark = SparkSession
+                .builder()
+                .appName("Java Spark SQL basic example")
+                .config("spark.some.config.option", "some-value")
+                .getOrCreate();
+
+        Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
+        df.show();
+        df.printSchema();
+        df.select("name").show();
+        df.select(col("name"), col("age").plus(1)).show();
+        df.filter(col("age").gt(21)).show();
+        df.groupBy("age").count().show();
     }
 
 }
