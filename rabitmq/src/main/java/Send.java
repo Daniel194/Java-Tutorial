@@ -35,11 +35,11 @@ public class Send {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        channel.exchangeDeclare(QUEUE_NAME, "fanout");
 
         String message = getMessage(argv);
 
-        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+        channel.basicPublish(QUEUE_NAME, "", null, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");
 
         channel.close();
