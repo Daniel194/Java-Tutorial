@@ -42,7 +42,7 @@ class Priorities {
             executeEvent(ev.split(" "));
         }
 
-        return new ArrayList<>(students);
+        return convertQueueToList();
     }
 
     private void executeEvent(String[] events) {
@@ -57,6 +57,16 @@ class Priorities {
         int id = Integer.parseInt(sId);
         double cgpa = Double.parseDouble(sCgpa);
         students.add(new Student(id, fname, cgpa));
+    }
+
+    private List<Student> convertQueueToList() {
+        List<Student> lStudents = new ArrayList<>();
+
+        while (!students.isEmpty()) {
+            lStudents.add(students.poll());
+        }
+
+        return lStudents;
     }
 
 }
