@@ -1,14 +1,16 @@
 package observer;
 
-import observer.subject.Subject;
+import java.util.Observable;
+import java.util.Observer;
 
 public class CurrentConditionsDisplay implements Observer, DisplayElement {
-    private Subject subject;
+    private Observable observable;
     private float humidity;
     private float temperature;
 
-    public CurrentConditionsDisplay(Subject subject) {
-        this.subject = subject;
+    CurrentConditionsDisplay(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
     }
 
     @Override
@@ -17,9 +19,12 @@ public class CurrentConditionsDisplay implements Observer, DisplayElement {
     }
 
     @Override
-    public void update(float temp, float humidity, float pressure) {
-        this.humidity = humidity;
-        this.temperature = temp;
-        display();
+    public void update(Observable o, Object arg) {
+        if (observable instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) o;
+            this.temperature = weatherData.getTemperature();
+            this.humidity = weatherData.getHumidity();
+            display();
+        }
     }
 }

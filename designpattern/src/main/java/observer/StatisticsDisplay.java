@@ -1,28 +1,33 @@
 package observer;
 
-import observer.subject.Subject;
+import java.util.Observable;
+import java.util.Observer;
 
 public class StatisticsDisplay implements Observer, DisplayElement {
-    private Subject subject;
+    private Observable observable;
     private float humidity;
     private float temperature;
     private float pressure;
 
-    public StatisticsDisplay(Subject subject) {
-        this.subject = subject;
+    StatisticsDisplay(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
     }
 
     @Override
     public void display() {
-        System.out.println("Current conditions : " + temperature + " with " + humidity
-                + " and " + pressure);
+        System.out.println("Current conditions : " + temperature + " with " + humidity + " and " + pressure);
     }
 
+
     @Override
-    public void update(float temp, float humidity, float pressure) {
-        this.humidity = humidity;
-        this.temperature = temp;
-        this.pressure = pressure;
-        display();
+    public void update(Observable o, Object arg) {
+        if (observable instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) o;
+            this.temperature = weatherData.getTemperature();
+            this.humidity = weatherData.getHumidity();
+            this.pressure = weatherData.getPressure();
+            display();
+        }
     }
 }
