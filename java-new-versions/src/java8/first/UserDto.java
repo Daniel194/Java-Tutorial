@@ -1,4 +1,4 @@
-package java8;
+package java8.first;
 
 public class UserDto {
     private String userName;
