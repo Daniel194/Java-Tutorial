@@ -1,8 +1,8 @@
-package factory.creator;
+package creational.factory2.creator;
 
-import factory.product.ChicagoCheesePizza;
-import factory.product.ChicagoPepperoniPizza;
-import factory.product.Pizza;
+import creational.factory2.product.ChicagoCheesePizza;
+import creational.factory2.product.ChicagoPepperoniPizza;
+import creational.factory2.product.Pizza;
 
 public class ChicagoPizzaStore extends PizzaStore {
     @Override

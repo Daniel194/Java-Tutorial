@@ -1,8 +1,8 @@
-package factory;
+package creational.factory2;
 
-import factory.creator.ChicagoPizzaStore;
-import factory.creator.NewYorkPizzaStore;
-import factory.creator.PizzaStore;
+import creational.factory2.creator.ChicagoPizzaStore;
+import creational.factory2.creator.NewYorkPizzaStore;
+import creational.factory2.creator.PizzaStore;
 
 public class Factory {
     public static void main(String... args) {

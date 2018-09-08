@@ -1,8 +1,8 @@
-package factory.creator;
+package creational.factory2.creator;
 
-import factory.product.NewYorkCheesePizza;
-import factory.product.NewYorkPepperoniPizza;
-import factory.product.Pizza;
+import creational.factory2.product.NewYorkCheesePizza;
+import creational.factory2.product.NewYorkPepperoniPizza;
+import creational.factory2.product.Pizza;
 
 public class NewYorkPizzaStore extends PizzaStore {
     @Override

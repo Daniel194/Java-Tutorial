@@ -1,6 +1,6 @@
-package factory.creator;
+package creational.factory2.creator;
 
-import factory.product.Pizza;
+import creational.factory2.product.Pizza;
 
 public abstract class PizzaStore {
 

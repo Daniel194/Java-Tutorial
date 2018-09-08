@@ -1,4 +1,4 @@
-package factory.product;
+package creational.factory2.product;
 
 public class NewYorkPepperoniPizza extends Pizza {
     public NewYorkPepperoniPizza() {

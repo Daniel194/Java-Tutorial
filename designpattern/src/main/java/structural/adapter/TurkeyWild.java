@@ -1,4 +1,4 @@
-package adapter;
+package structural.adapter;
 
 public class TurkeyWild implements Turkey {
     @Override
