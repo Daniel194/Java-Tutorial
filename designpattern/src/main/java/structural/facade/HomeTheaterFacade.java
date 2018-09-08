@@ -1,4 +1,4 @@
-package facade;
+package structural.facade;
 
 public class HomeTheaterFacade {
     private Amplifier amplifier;

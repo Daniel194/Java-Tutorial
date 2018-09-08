@@ -1,6 +1,6 @@
-package facade;
+package structural.facade;
 
-public class Player {
+public class Projector {
     public void on() {
     }
 

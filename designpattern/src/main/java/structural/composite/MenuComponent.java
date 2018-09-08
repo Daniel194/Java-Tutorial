@@ -1,4 +1,4 @@
-package composite;
+package structural.composite;
 
 public abstract class MenuComponent {
     public void add(MenuComponent menuComponent) {
