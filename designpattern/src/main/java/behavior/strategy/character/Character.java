@@ -1,6 +1,6 @@
-package strategy.character;
+package behavior.strategy.character;
 
-import strategy.weapon.Weapon;
+import behavior.strategy.weapon.Weapon;
 
 public abstract class Character {
     protected Weapon weapon;

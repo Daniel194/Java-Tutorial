@@ -1,4 +1,4 @@
-package strategy.weapon;
+package behavior.strategy.weapon;
 
 public class Bow implements Weapon {
     @Override

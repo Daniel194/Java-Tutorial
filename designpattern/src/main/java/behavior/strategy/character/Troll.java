@@ -1,4 +1,4 @@
-package strategy.character;
+package behavior.strategy.character;
 
 public class Troll extends Character {
     @Override

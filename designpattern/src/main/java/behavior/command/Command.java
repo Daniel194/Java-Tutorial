@@ -1,4 +1,4 @@
-package command;
+package behavior.command;
 
 public interface Command {
     void execute();

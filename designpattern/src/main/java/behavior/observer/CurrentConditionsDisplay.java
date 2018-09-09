@@ -1,24 +1,22 @@
-package observer;
+package behavior.observer;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class StatisticsDisplay implements Observer, DisplayElement {
+public class CurrentConditionsDisplay implements Observer, DisplayElement {
     private Observable observable;
     private float humidity;
     private float temperature;
-    private float pressure;
 
-    StatisticsDisplay(Observable observable) {
+    CurrentConditionsDisplay(Observable observable) {
         this.observable = observable;
         observable.addObserver(this);
     }
 
     @Override
     public void display() {
-        System.out.println("Current conditions : " + temperature + " with " + humidity + " and " + pressure);
+        System.out.println("Current conditions : " + temperature + " with " + humidity);
     }
-
 
     @Override
     public void update(Observable o, Object arg) {
@@ -26,7 +24,6 @@ public class StatisticsDisplay implements Observer, DisplayElement {
             WeatherData weatherData = (WeatherData) o;
             this.temperature = weatherData.getTemperature();
             this.humidity = weatherData.getHumidity();
-            this.pressure = weatherData.getPressure();
             display();
         }
     }

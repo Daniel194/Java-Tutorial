@@ -1,4 +1,4 @@
-package template;
+package behavior.template;
 
 public abstract class CaffeineBeverage {
 
