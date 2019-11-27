@@ -22,7 +22,6 @@ public class LinkedList<S> {
 
     private void initHeadAndTail(S value) {
         Node<S> node = createNode(value);
-
         HEAD = node;
         TAIL = node;
     }
@@ -47,6 +46,83 @@ public class LinkedList<S> {
         }
 
         return current.getValue();
+    }
+
+    public boolean contains(S value) {
+        return getNode(value) != null;
+    }
+
+    public boolean remove(S value) {
+        Node<S> node = getNode(value);
+
+        if (node == null) {
+            return false;
+        }
+
+        updateNext(node);
+        updatePrevious(node);
+
+        size--;
+
+        return true;
+    }
+
+    private Node<S> getNode(S value) {
+        Node<S> node = HEAD;
+
+        while (node != null) {
+            if (node.getValue().equals(value)) {
+                return node;
+            }
+
+            node = node.getNext();
+        }
+
+        return null;
+    }
+
+    private void updateNext(Node<S> node) {
+        Node<S> next = node.getNext();
+
+        if (next != null) {
+            next.setPrevious(node.getPrevious());
+        }
+
+        if (HEAD == node) {
+            HEAD = next;
+        }
+
+        node.setNext(null);
+    }
+
+    private void updatePrevious(Node<S> node) {
+        Node<S> previous = node.getPrevious();
+
+        if (previous != null) {
+            previous.setNext(node.getNext());
+        }
+
+        if (TAIL == node) {
+            TAIL = previous;
+        }
+
+        node.setPrevious(null);
+    }
+
+    public int indexOf(S value) {
+        Node<S> node = HEAD;
+        int index = 0;
+
+        while (node != null) {
+            if (node.getValue().equals(value)) {
+                return index;
+            }
+
+            node = node.getNext();
+            index++;
+        }
+
+        return -1;
     }
 
 
